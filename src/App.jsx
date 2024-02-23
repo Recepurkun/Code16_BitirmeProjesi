@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-// import "leaflet/dist/leaflet.css";
 import Select from "react-select";
+import Map from "./Map";
 
 function App() {
+  const [selectedIlce, setSelectedIlce] = useState(null); //ilce bilgisi tutan state
+  const [selectedMahalle, setSelectedMahalle] = useState(null); //mahalle bilgisini tutan state
+  const [geojsonData, setGeojsonData] = useState(null); //secilen ilce ve mahalle bilgilerini ekranda yazdirmak icin
+  const [coordinateData, setCoordinateData] = useState([]); //ilce ve mahalleye gore api'den donen koordinat bilgilerini tutmak icin
+
+  // ilce ve mahalle bilgileri. api istegine donusturulebilir ya da farkli bir json dosyasinda tutulup oradan import edilebilir.
   const options = [
     {
       value: "1832",
@@ -32,13 +37,9 @@ function App() {
     },
   ];
 
-  const [selectedIlce, setSelectedIlce] = useState(null);
-  const [selectedMahalle, setSelectedMahalle] = useState(null);
-  const [geojsonData, setGeojsonData] = useState(null);
-
   const fetchData = async () => {
     try {
-      const startTime = new Date().getTime(); // İstek başlangıç zamanını kaydedin
+      const startTime = new Date().getTime(); // api baslangic zamani
 
       // const ilceID = 1832;
       // const mahalleID = 11171;
@@ -47,12 +48,12 @@ function App() {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          Origin: "http://localhost:5173", // veya kendi origin'iniz
+          Origin: "http://localhost:5173",
           Accept: "application/json",
         },
       });
-      const endTime = new Date().getTime(); // İstek bitiş zamanını kaydedin
-      const duration = endTime - startTime; // İstek süresini hesaplayın
+      const endTime = new Date().getTime(); // api bitis zamani
+      const duration = endTime - startTime; // kac saniyede apiden sonuc donuyo hesapla
       console.log(`API isteği tamamlandı. Süre: ${duration} ms`);
       const data = await response.json();
       console.log(data);
@@ -64,7 +65,7 @@ function App() {
 
   const fetchLocationData = async () => {
     try {
-      const startTime = new Date().getTime(); // İstek başlangıç zamanını kaydedin
+      const startTime = new Date().getTime(); // api baslangic zamani
 
       const url = `https://acikyesil.bursa.bel.tr/geoserver/ckan/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ckan%3Abursa_mahallesinirlari&outputFormat=application%2Fjson&CQL_FILTER=uavt_kodu=${selectedMahalle.value}
       `;
@@ -72,15 +73,41 @@ function App() {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          Origin: "http://localhost:5173", // veya kendi origin'iniz
+          Origin: "http://localhost:5173",
           Accept: "application/json",
         },
       });
-      const endTime = new Date().getTime(); // İstek bitiş zamanını kaydedin
-      const duration = endTime - startTime; // İstek süresini hesaplayın
+      const endTime = new Date().getTime(); // api bitis zamani
+      const duration = endTime - startTime; // kac saniyede apiden sonuc donuyo hesapla
       console.log(`API isteği tamamlandı. Süre: ${duration} ms`);
       const data = await response.json();
       console.log(data);
+      // features dizisindeki her bir öğeyi (feature) üzerinde dön
+      data.features.forEach((feature) => {
+        console.log("Mahalle Adı:", feature.properties.ad);
+        console.log("İlçe Adı:", feature.properties.ilce_adi);
+        console.log("Kimlik Numarası:", feature.properties.kimlik_no);
+        console.log("UAVT Kodu:", feature.properties.uavt_kodu);
+        console.log("GeoJSON Koordinatları:");
+        feature.geometry.coordinates.forEach((polygon) => {
+          polygon.forEach((ring) => {
+            ring.forEach((coordinate) => {
+              console.log(coordinate[1], coordinate[0]);
+              //gelen koordinat bilgisini coordinateData'ya at.
+              // [1] ve [0] olmasinin sebebi bize koordinat bilgileri apiden
+              // 28.9953492 , 40.23656992
+              // olarak donuyor fakat gecerli bir konum olmasi (bkn: openstreetmap) icin
+              // 40.23656992 , 28.9953492
+              // olarak yer degistirilmesi gerekiyor.
+              setCoordinateData((prevData) => [
+                ...prevData,
+                [coordinate[1], coordinate[0]],
+              ]);
+            });
+          });
+        });
+        console.log("----------");
+      });
     } catch (error) {
       console.error("Error fetching GeoJSON data:", error);
     }
@@ -109,8 +136,10 @@ function App() {
   const handleMahalleChange = (selectedOption) => {
     setSelectedMahalle(selectedOption);
     setGeojsonData(null); // Mahalle değiştiğinde GeoJSON verisini sıfırla
+    setCoordinateData([]); // Mahalle değiştiğinde koordinat bilgilerini sıfırla
   };
 
+  //konsolda bilgileri gormek icin
   useEffect(() => {
     console.log("ilce:", selectedIlce);
   }, [selectedIlce]);
@@ -121,7 +150,7 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Kullanıcının girdiği değerlere göre veriyi çek
-    fetchData();
+    // fetchData();
     fetchLocationData();
   };
 
@@ -171,6 +200,10 @@ function App() {
         <h2>GeoJSON Data</h2>
         {geojsonData && <pre>{JSON.stringify(geojsonData, null, 2)}</pre>}
       </div>
+
+      <hr />
+      {/* mapte gösterme kısmı */}
+      <Map coordinateData={coordinateData} />
     </div>
   );
 }
