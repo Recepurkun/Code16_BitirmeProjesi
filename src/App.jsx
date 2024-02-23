@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import Select from "react-select";
-import Map from "./Map";
+import Map from "./components/Map";
 
 function App() {
   const [selectedIlce, setSelectedIlce] = useState(null); //ilce bilgisi tutan state
+  const [ilceAdi, setIlceAdi] = useState("") //string tipte secilen ilce adi
+  const [mahalleAdi, setMahalleAdi] = useState("") //string tipte secilen mahalle adi
   const [selectedMahalle, setSelectedMahalle] = useState(null); //mahalle bilgisini tutan state
   const [geojsonData, setGeojsonData] = useState(null); //secilen ilce ve mahalle bilgilerini ekranda yazdirmak icin
   const [coordinateData, setCoordinateData] = useState([]); //ilce ve mahalleye gore api'den donen koordinat bilgilerini tutmak icin
@@ -56,7 +58,6 @@ function App() {
       const duration = endTime - startTime; // kac saniyede apiden sonuc donuyo hesapla
       console.log(`API isteği tamamlandı. Süre: ${duration} ms`);
       const data = await response.json();
-      console.log(data);
       setGeojsonData(data); //ekrana yazdirmak için
     } catch (error) {
       console.error("Error fetching GeoJSON data:", error);
@@ -81,18 +82,17 @@ function App() {
       const duration = endTime - startTime; // kac saniyede apiden sonuc donuyo hesapla
       console.log(`API isteği tamamlandı. Süre: ${duration} ms`);
       const data = await response.json();
-      console.log(data);
       // features dizisindeki her bir öğeyi (feature) üzerinde dön
       data.features.forEach((feature) => {
-        console.log("Mahalle Adı:", feature.properties.ad);
-        console.log("İlçe Adı:", feature.properties.ilce_adi);
-        console.log("Kimlik Numarası:", feature.properties.kimlik_no);
-        console.log("UAVT Kodu:", feature.properties.uavt_kodu);
-        console.log("GeoJSON Koordinatları:");
+        setIlceAdi(feature.properties.ilce_adi)
+        setMahalleAdi(feature.properties.ad)
+        // console.log("Kimlik Numarası:", feature.properties.kimlik_no);
+        // console.log("UAVT Kodu:", feature.properties.uavt_kodu);
+        // console.log("GeoJSON Koordinatları:");
         feature.geometry.coordinates.forEach((polygon) => {
           polygon.forEach((ring) => {
             ring.forEach((coordinate) => {
-              console.log(coordinate[1], coordinate[0]);
+              // console.log(coordinate[1], coordinate[0]);
               //gelen koordinat bilgisini coordinateData'ya at.
               // [1] ve [0] olmasinin sebebi bize koordinat bilgileri apiden
               // 28.9953492 , 40.23656992
@@ -106,7 +106,6 @@ function App() {
             });
           });
         });
-        console.log("----------");
       });
     } catch (error) {
       console.error("Error fetching GeoJSON data:", error);
@@ -139,18 +138,10 @@ function App() {
     setCoordinateData([]); // Mahalle değiştiğinde koordinat bilgilerini sıfırla
   };
 
-  //konsolda bilgileri gormek icin
-  useEffect(() => {
-    console.log("ilce:", selectedIlce);
-  }, [selectedIlce]);
-  useEffect(() => {
-    console.log("mahalle:", selectedMahalle);
-  }, [selectedMahalle]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // Kullanıcının girdiği değerlere göre veriyi çek
-    // fetchData();
+    //fetchData();
     fetchLocationData();
   };
 
@@ -203,7 +194,13 @@ function App() {
 
       <hr />
       {/* mapte gösterme kısmı */}
-      <Map coordinateData={coordinateData} />
+      <Map
+        coordinateData={coordinateData}
+        ilceAdi={ilceAdi}
+        mahalleAdi={mahalleAdi}
+        selectedIlce={selectedIlce}
+        selectedMahalle={selectedMahalle}
+      />
     </div>
   );
 }
