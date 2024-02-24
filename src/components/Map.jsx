@@ -31,11 +31,23 @@ const calculateMapCenter = (coordinates) => {
   return center;
 };
 
-function Map({ coordinateData, ilceAdi, mahalleAdi,selectedIlce, selectedMahalle  }) {
+function Map({
+  coordinateData,
+  ilceAdi,
+  mahalleAdi,
+  selectedIlce,
+  selectedMahalle,
+}) {
   const center = calculateMapCenter(coordinateData);
   const [mapKey, setMapKey] = useState(0);
-  {console.log("Secilen ilce ve mahalle: ",selectedIlce + " - " + selectedMahalle)}
-  {console.log("ilce ve mahalle: ",ilceAdi + " - " + mahalleAdi)}
+  {
+    console.log(
+      "Secilen ilce ve mahalle: ",
+      selectedIlce + " - " + selectedMahalle,
+      "ilce ve mahalle: ",
+      ilceAdi + " - " + mahalleAdi
+    );
+  }
 
   // const fetchTotalYearsData = async () => {
   //   try {
@@ -79,8 +91,9 @@ function Map({ coordinateData, ilceAdi, mahalleAdi,selectedIlce, selectedMahalle
       key={mapKey}
       center={center}
       zoom={14}
-      scrollWheelZoom={true}
-      style={{ height: 500, width: "100%"}}
+      scrollWheelZoom={false}
+      style={{ height: 500, width: "100%" }}
+      className="shadow-lg p-3 mb-5 bg-body-tertiary rounded-3"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -92,11 +105,18 @@ function Map({ coordinateData, ilceAdi, mahalleAdi,selectedIlce, selectedMahalle
         <Popup>Popup for Marker</Popup>
         <Tooltip>Tooltip for Marker</Tooltip>
       </Marker>
-      <Polygon pathOptions={{ color: "purple" }} positions={coordinateData}> 
+      <Polygon pathOptions={{ color: "purple" }} positions={coordinateData}>
         <Tooltip sticky>
-          <div style={{padding:"5px", backgroundColor:"#FCF5E5", borderRadius:10}} >
-            <FaLocationDot/>
-            {ilceAdi} - {mahalleAdi}<br />
+          <div
+            style={{
+              padding: "5px",
+              backgroundColor: "#FCF5E5",
+              borderRadius: 10,
+            }}
+          >
+            <FaLocationDot />
+            {ilceAdi} - {mahalleAdi}
+            <br />
           </div>
         </Tooltip>
       </Polygon>
