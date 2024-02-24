@@ -35,6 +35,7 @@ function Map({ coordinateData, ilceAdi, mahalleAdi,selectedIlce, selectedMahalle
   const center = calculateMapCenter(coordinateData);
   const [mapKey, setMapKey] = useState(0);
   {console.log("Secilen ilce ve mahalle: ",selectedIlce + " - " + selectedMahalle)}
+  {console.log("ilce ve mahalle: ",ilceAdi + " - " + mahalleAdi)}
 
   // const fetchTotalYearsData = async () => {
   //   try {
