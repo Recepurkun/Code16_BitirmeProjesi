@@ -11,7 +11,6 @@ import "leaflet/dist/leaflet.css";
 import { FaLocationDot } from "react-icons/fa6";
 import Details from "./Details";
 import "./map.css";
-import { Button } from "bootstrap";
 
 //markeri konumun ortasinda gostermek icin yazilmis bir fonk
 const calculateMapCenter = (coordinates) => {
