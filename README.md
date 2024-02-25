@@ -3,6 +3,10 @@
 Seçilen ilce ve mahalleye göre aylik ve yillik olarak tuketilen su verilerini gosteren React ile gelistirilmis bir web sayfasi
 
 ## Kullanilan Teknolojiler
+> Harita icin:  [React Leaflet](https://react-leaflet.js.org/) <br>
+> Iconlar icin: [React Icons](https://react-icons.github.io/react-icons/) <br>
+> Yonlendirmeler icin: [React Router Dom](https://reactrouter.com/en/main/) <br>
+> Css Kutuphanesi: [Bootstrap](https://getbootstrap.com/) 
 
 ## Datalar
 Bursa Büyükşehir Belediyesinin Açık Veri Platformunda paylaştığı veriler -> [Acik Yesil](https://acikyesil.bursa.bel.tr/)
