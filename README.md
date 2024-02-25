@@ -2,6 +2,10 @@
 
 Seçilen ilce ve mahalleye göre aylik ve yillik olarak tuketilen su verilerini gosteren React ile gelistirilmis bir web sayfasi
 
+## Cors hatasi yuzunden eklenti calistirmak gerekiyor. 
+Herhangi bir şekilde cors'u bypass eden eklenti de kullanabilirsiniz.
+[CORS-Unblock](https://chromewebstore.google.com/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino)
+
 ## Canli  -> https://code16-bitirme-projesi-recepurkun.vercel.app/
 
 ## Kullanilan Teknolojiler

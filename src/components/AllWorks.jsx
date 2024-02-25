@@ -76,7 +76,6 @@ function AllWorks() {
       const duration = endTime - startTime;
       console.log(`API isteği tamamlandi. Gecen Sure: ${duration} ms`);
       const data = await response.json();
-      console.log(data);
       setYearlyData(data);
     } catch (error) {
       console.log("Error fetching data: ", error);
