@@ -1,0 +1,9 @@
+.maps {
+    transition: .3s ease-in-out;
+    opacity: 0.9;
+}
+
+.maps:hover {
+    transform: scale(1.02);
+    opacity: 1;
+}

@@ -9,7 +9,6 @@ function KullaniciSecim({
   handleMahalleChange,
   handleSubmit,
 }) {
-  {console.log(selectedIlce, selectedMahalle)}
   return (
     <div>
       <div className="d-flex justify-content-center text-center">
@@ -21,6 +20,7 @@ function KullaniciSecim({
               onChange={handleIlceChange}
               value={selectedIlce}
             >
+              <option value="">İlçe Seçiniz</option>
               {ilceler.map((ilce) => (
                 <option key={ilce.value} value={ilce.value}>
                   {ilce.label}

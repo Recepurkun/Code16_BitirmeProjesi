@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   MapContainer,
   Marker,
@@ -9,7 +9,11 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { FaLocationDot } from "react-icons/fa6";
+import Details from "./Details";
+import "./map.css";
+import { Button } from "bootstrap";
 
+//markeri konumun ortasinda gostermek icin yazilmis bir fonk
 const calculateMapCenter = (coordinates) => {
   if (coordinates.length === 0) {
     return [40.19718, 29.0623];
@@ -30,96 +34,110 @@ const calculateMapCenter = (coordinates) => {
   return center;
 };
 
-function Map({
-  coordinateData,
-  ilceAdi,
-  mahalleAdi,
-  selectedIlce,
-  selectedMahalle,
-}) {
+function Map({ coordinateData, ilceAdi, mahalleAdi, monthlyData, yearlyData }) {
   const center = calculateMapCenter(coordinateData);
   const [mapKey, setMapKey] = useState(0);
-  {
-    // console.log(
-    //   "Secilen ilce ve mahalle: ",
-    //   selectedIlce + " - " + selectedMahalle,
-    //   "ilce ve mahalle: ",
-    //   ilceAdi + " - " + mahalleAdi
-    // );
-  }
-
-  // const fetchTotalYearsData = async () => {
-  //   try {
-  //     const startTime = new Date().getTime(); // api baslangic zamani
-
-  //     // const ilceID = 1832;
-  //     // const mahalleID = 11171;
-  //     const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce.value}&mahalleID=${selectedMahalle.value}`
-
-  //     const response = await fetch(url, {
-  //       method: "GET",
-  //       headers: {
-  //         Origin: "http://localhost:5173",
-  //         Accept: "application/json",
-  //       },
-  //     });
-  //     const endTime = new Date().getTime(); // api bitis zamani
-  //     const duration = endTime - startTime; // kac saniyede apiden sonuc donuyo hesapla
-  //     console.log(`API isteği tamamlandı. Süre: ${duration} ms`);
-  //     const data = await response.json();
-  //     console.log(data)
-  //   } catch (error) {
-  //     console.error("Error fetching GeoJSON data:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // selectedIlce veya selectedMahalle değiştiğinde fetchTotalYearsData fonksiyonunu çağır
-  //   if (ilceAdi && mahalleAdi) {
-  //     fetchTotalYearsData();
-  //   }
-  // }, [ilceAdi, mahalleAdi]);
+  const [showDetails, setShowDetails] = useState(false);
+  const detailsSectionRef = useRef(null);
 
   useEffect(() => {
     // coordinateData değiştiğinde mapKey'i güncelle
     setMapKey((prevKey) => prevKey + 1);
   }, [coordinateData]);
 
-  return (
-    <MapContainer
-      key={mapKey}
-      center={center}
-      zoom={14}
-      scrollWheelZoom={false}
-      style={{ height: 500, width: "100%" }}
-      className="shadow-lg p-3 mb-5 bg-body-tertiary rounded-3"
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {/* marker'in pozisyonunu gelen koordinat verilerine gore dinamik olarak guncellemek lazim */}
-      <Marker position={center}>
-        {/* Popup ve tooltipi de secilen konuma gore kullanciya ise yarayan bilgiler gostermek icin kullan */}
-        <Popup>Popup for Marker</Popup>
-        <Tooltip>Tooltip for Marker</Tooltip>
-      </Marker>
-      <Polygon pathOptions={{ color: "purple" }} positions={coordinateData}>
-        <Tooltip sticky>
+  const yillikVerileriGoster = () => {
+    if (!yearlyData || yearlyData.length === 0) {
+      return (
+        <>
           <div
-            style={{
-              padding: "5px",
-              backgroundColor: "#FCF5E5",
-              borderRadius: 10,
-            }}
+            className="spinner-border spinner-border-sm text-danger mx-2"
+            role="status"
           >
-            <FaLocationDot />
-            {ilceAdi} - {mahalleAdi}
-            <br />
+            <span className="visually-hidden">Loading...</span>
           </div>
-        </Tooltip>
-      </Polygon>
-    </MapContainer>
+        </>
+      );
+    }
+
+    const yillikVerilerContent = yearlyData.map((data) => (
+      <div key={data.donem}>
+        <table className="table table-striped m-0 p-0 table-sm ">
+          <thead>
+            <tr>
+              <th scope="col">Dönem</th>
+              <th scope="col">Abone Sayisi</th>
+              <th scope="col">Tüketim (Ton)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">{data.donem}</th>
+              <th scope="row">{data.aboneSayisi}</th>
+              <th scope="row">{data.tuketim}</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    ));
+
+    return yillikVerilerContent;
+  };
+
+  const handlePopupButtonClick = () => {
+    // Popup içindeki butona tıklandığında showDetails durumunu güncelle
+    setShowDetails((prevShowDetails) => !prevShowDetails);
+  };
+
+  return (
+    <>
+      <MapContainer
+        key={mapKey}
+        center={center}
+        zoom={14}
+        scrollWheelZoom={false}
+        style={{ height: 500, width: "100%" }}
+        className="shadow-lg p-3 mb-5 bg-body-tertiary rounded-3 maps"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={center}>
+          <Popup>
+            <button
+              className="btn btn-sm btn-secondary"
+              onClick={handlePopupButtonClick}
+            >
+              Aylik Verileri görmek için tiklayin
+            </button>
+          </Popup>
+          <Tooltip>
+            <b>Detayli bilgi icin tiklayin</b>
+          </Tooltip>
+        </Marker>
+        <Polygon pathOptions={{ color: "purple" }} positions={coordinateData}>
+          <Tooltip sticky>
+            <div
+              style={{
+                padding: 5,
+                backgroundColor: "#FCF5E5",
+                borderRadius: 10,
+              }}
+            >
+              <h6>Yillik Veriler</h6>
+              <FaLocationDot />
+              <b>
+                {ilceAdi} - {mahalleAdi}
+              </b>
+              {yillikVerileriGoster()}
+              <br />
+            </div>
+          </Tooltip>
+        </Polygon>
+      </MapContainer>
+      {/* kullanici detaylari görmek istiyorsa details sayfasini göster */}
+      {showDetails && <Details monthlyData={monthlyData} />}
+    </>
   );
 }
 

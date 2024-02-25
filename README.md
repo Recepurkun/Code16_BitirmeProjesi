@@ -1,3 +1,54 @@
+# Bursa Su Tüketimi
+
+Seçilen ilce ve mahalleye göre aylik ve yillik olarak tuketilen su verilerini gosteren React ile gelistirilmis bir web sayfasi
+
+## Kullanilan Teknolojiler
+
+## Datalar
+Bursa Büyükşehir Belediyesinin Açık Veri Platformunda paylaştığı veriler -> [Acik Yesil](https://acikyesil.bursa.bel.tr/)
+
+## Kullanimi
+Görmek istediğiniz ilçe ve mahalleyi seçtikten sonra haritada o mahallenin sınırları <b>(Resim2)</b> çizilir. Sınırları çizilen mahallenin üstüne geldikten ve veriler yüklendikten sonra yıllık tüketim miktarlari gözükür. Daha detayli bilgi almak için <b>(Resim3)</b> mavi ikona tiklayin ve oradan da "Aylik Verileri görmek için tiklayin" butonuna tiklayin ve artık <b>(Resim4)</b> aşağıda gözüken verileri inceleyebilirsiniz.
+
+## Ekran Görüntüleri
+
+![Uygulama Ekran Görüntüsü](/public/1.png)
+![Uygulama Ekran Görüntüsü](/public/2.png)
+![Uygulama Ekran Görüntüsü](/public/3.png)
+![Uygulama Ekran Görüntüsü](/public/4.png)
+![Uygulama Ekran Görüntüsü](/public/5.png)
+
+## Bilgisayarınızda Çalıştırın
+
+Projeyi klonlayın
+
+```bash
+  git clone https://github.com/Recepurkun/Code16_BitirmeProjesi.git
+```
+
+Proje dizinine gidin
+
+```bash
+  cd code16bitirmeprojesi
+```
+
+Gerekli paketleri yükleyin
+
+```bash
+  npm install
+```
+
+Sunucuyu çalıştırın
+
+```bash
+  npm run dev
+```
+  
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+  
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

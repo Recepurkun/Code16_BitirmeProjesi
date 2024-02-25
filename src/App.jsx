@@ -20,7 +20,7 @@ function App() {
       >
         <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <AllWorks />
-        <Footer />
+        <Footer darkMode={darkMode}/>
       </div>
     </div>
   );
