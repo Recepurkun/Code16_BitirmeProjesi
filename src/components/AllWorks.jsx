@@ -61,7 +61,8 @@ function AllWorks() {
   const fetchYearlyData = async () => {
     try {
       const startTime = new Date().getTime();
-      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -73,6 +74,7 @@ function AllWorks() {
       const duration = endTime - startTime;
       console.log(`API isteği tamamlandi. Gecen Sure: ${duration} ms`);
       const data = await response.json();
+      console.log(data)
       setYearlyData(data);
     } catch (error) {
       console.log("Error fetching data: ", error);
