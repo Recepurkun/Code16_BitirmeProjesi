@@ -27,7 +27,6 @@ const calculateMapCenter = (coordinates) => {
     totalCoordinates[0] / coordinates.length,
     totalCoordinates[1] / coordinates.length,
   ];
-
   return center;
 };
 
@@ -41,12 +40,12 @@ function Map({
   const center = calculateMapCenter(coordinateData);
   const [mapKey, setMapKey] = useState(0);
   {
-    console.log(
-      "Secilen ilce ve mahalle: ",
-      selectedIlce + " - " + selectedMahalle,
-      "ilce ve mahalle: ",
-      ilceAdi + " - " + mahalleAdi
-    );
+    // console.log(
+    //   "Secilen ilce ve mahalle: ",
+    //   selectedIlce + " - " + selectedMahalle,
+    //   "ilce ve mahalle: ",
+    //   ilceAdi + " - " + mahalleAdi
+    // );
   }
 
   // const fetchTotalYearsData = async () => {

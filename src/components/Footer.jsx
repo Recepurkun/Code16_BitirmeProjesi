@@ -1,5 +1,4 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
 import { FaLinkedin, FaGithubSquare } from "react-icons/fa";
 
 function Footer() {
@@ -15,13 +14,13 @@ function Footer() {
             </a>
           </li>
           <li className="nav-item">
-            <Link
-              className="nav-link px-2 text-body-secondary"
-              to="/about"
-              target="_blank"
+            <a
+              className="nav-link px-2 text-dark icon-link-hover"
+              href="#"
+              target="blank"
             >
               About
-            </Link>
+            </a>
           </li>
           <li className="nav-item">
             <a

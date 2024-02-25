@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Map from "./Map";
 import KullaniciSecim from "./KullaniciSecim";
+import Details from "./Details";
 
 function AllWorks() {
   //muhtemelen 4 state yerine 2 state'de halledebilirim fakat şuan yorgunum
@@ -8,8 +9,9 @@ function AllWorks() {
   const [selectedMahalle, setSelectedMahalle] = useState(""); //mahalle bilgisini tutan state
   const [ilceAdi, setIlceAdi] = useState(""); //string tipte secilen ilce adi
   const [mahalleAdi, setMahalleAdi] = useState(""); //string tipte secilen mahalle adi
-  const [geojsonData, setGeojsonData] = useState(null); //secilen ilce ve mahalle bilgilerini ekranda yazdirmak icin
+  const [monthlyData, setMonthlyData] = useState(null); //secilen ilce ve mahalle bilgilerini ekranda yazdirmak icin
   const [coordinateData, setCoordinateData] = useState([]); //ilce ve mahalleye gore api'den donen koordinat bilgilerini tutmak icin
+  const [yearlyData, setYearlyData] = useState(null);
 
   // ilçe ve mahalle bilgileri. API isteğine dönüştürülebilir veya farklı bir JSON dosyasında tutulup oradan import edilebilir.
   const ilceler = [
@@ -21,17 +23,18 @@ function AllWorks() {
   const mahalleler = [
     { ilceValue: "1832", value: 11155, label: "Adalet Mahallesi" },
     { ilceValue: "1832", value: 183473, label: "Ahmetbey Mahallesi" },
+    { ilceValue: "1832", value: 11171, label: "Basaran Mahallesi" },
     { ilceValue: "1829", value: 140338, label: "19 Mayıs Mahallesi" },
     { ilceValue: "1829", value: 140334, label: "23 Nisan Mahallesi" },
     { ilceValue: "1859", value: 11274, label: "152 Evler Mahallesi" },
     { ilceValue: "1859", value: 11324, label: "75. Yıl Mahallesi" },
   ];
 
-  const fetchData = async () => {
+  const fetchMonthlyData = async () => {
     try {
       const startTime = new Date().getTime(); // api baslangic zamani
 
-      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce.value}&mahalleID=${selectedMahalle.value}`;
+      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -44,9 +47,30 @@ function AllWorks() {
       const duration = endTime - startTime; // kac saniyede apiden sonuc donuyo hesapla
       console.log(`API isteği tamamlandı. Süre: ${duration} ms`);
       const data = await response.json();
-      setGeojsonData(data); //ekrana yazdirmak için
+      setMonthlyData(data); //ekrana yazdirmak için
+      // console.log(data)
     } catch (error) {
-      console.error("Error fetching GeoJSON data:", error);
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchYearlyData = async () => {
+    try {
+      const startTime = new Date().getTime();
+      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Origin: "http://localhost:5173",
+          Accept: "application/json",
+        },
+      });
+      const endTime = new Date().getTime();
+      const duration = endTime - startTime;
+      console.log(`API isteği tamamlandi. Gecen Sure: ${duration} ms`);
+      const data = await response.json();
+    } catch (error) {
+      console.log("Error fetching data: ", error);
     }
   };
 
@@ -105,7 +129,7 @@ function AllWorks() {
       ilceler.find((ilce) => ilce.value === selectedIlceValue)?.label || ""
     );
     setSelectedMahalle(""); // İlçe değiştiğinde mahalle seçimini sıfırla
-    setGeojsonData(null); // İlçe değiştiğinde GeoJSON verisini sıfırla
+    setMonthlyData(null); // İlçe değiştiğinde GeoJSON verisini sıfırla
   };
 
   const handleMahalleChange = (e) => {
@@ -115,14 +139,14 @@ function AllWorks() {
       mahalleler.find((mahalle) => mahalle.value === selectedMahalleValue)
         ?.label || ""
     );
-    setGeojsonData(null); // Mahalle değiştiğinde GeoJSON verisini sıfırla
+    setMonthlyData(null); // Mahalle değiştiğinde GeoJSON verisini sıfırla
     setCoordinateData([]); // Mahalle değiştiğinde koordinat bilgilerini sıfırla
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Kullanıcının girdiği değerlere göre veriyi çek
-    //fetchData();
+    fetchMonthlyData();
     fetchLocationData();
   };
 
@@ -138,11 +162,6 @@ function AllWorks() {
         handleSubmit={handleSubmit}
       />
 
-      {/* <div>
-        <h2>GeoJSON Data</h2>
-        {geojsonData && <pre>{JSON.stringify(geojsonData, null, 2)}</pre>}
-      </div> */}
-
       <hr />
       {/* Map'te gösterme kısmı */}
       <Map
@@ -152,6 +171,8 @@ function AllWorks() {
         selectedIlce={selectedIlce}
         selectedMahalle={selectedMahalle}
       />
+
+      <Details monthlyData={monthlyData} />
     </div>
   );
 }

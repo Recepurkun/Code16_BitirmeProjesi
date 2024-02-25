@@ -17,7 +17,7 @@ function KullaniciSecim({
           <div className="col">
             <h5>İlçe Seçiniz: </h5>
             <select
-              className="form-select form-select-lg"
+              className="form-select form-select-lg shadow-lg"
               onChange={handleIlceChange}
               value={selectedIlce}
             >
@@ -31,7 +31,7 @@ function KullaniciSecim({
           <div className="col">
             <h5>Mahalle Seçiniz: </h5>
             <select
-              className="form-select form-select-lg"
+              className="form-select form-select-lg shadow-lg"
               onChange={handleMahalleChange}
               value={selectedMahalle}
             >
@@ -49,7 +49,7 @@ function KullaniciSecim({
       </div>
       <div className="m-4">
         <button
-          className="btn btn-success btn-lg"
+          className="btn btn-success btn-lg shadow-md"
           type="submit"
           onClick={handleSubmit}
         >
