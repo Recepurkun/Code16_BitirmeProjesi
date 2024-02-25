@@ -2,7 +2,7 @@
 
 Seçilen ilce ve mahalleye göre aylik ve yillik olarak tuketilen su verilerini gosteren React ile gelistirilmis bir web sayfasi
 
-# Canli -> https://code16-bitirme-projesi-recepurkun.vercel.app/
+## Canli  -> https://code16-bitirme-projesi-recepurkun.vercel.app/
 
 ## Kullanilan Teknolojiler
 > Harita icin:  [React Leaflet](https://react-leaflet.js.org/) <br>
