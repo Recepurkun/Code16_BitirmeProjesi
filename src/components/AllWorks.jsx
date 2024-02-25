@@ -39,7 +39,9 @@ function AllWorks() {
     try {
       const startTime = new Date().getTime();
 
-      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+
+      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -61,20 +63,20 @@ function AllWorks() {
   const fetchYearlyData = async () => {
     try {
       const startTime = new Date().getTime();
-      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
-      // const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          Origin: "http://localhost:5173",
-          Accept: "application/json",
+          origin: "http://localhost:5173",
+          accept: "application/json",
         },
       });
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       console.log(`API isteği tamamlandi. Gecen Sure: ${duration} ms`);
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setYearlyData(data);
     } catch (error) {
       console.log("Error fetching data: ", error);
