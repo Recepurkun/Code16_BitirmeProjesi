@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MapContainer,
   Marker,
@@ -11,7 +11,15 @@ import "leaflet/dist/leaflet.css";
 import { FaLocationDot } from "react-icons/fa6";
 import Details from "./Details";
 import "./map.css";
-import { Button } from "bootstrap";
+delete L.Icon.Default.prototype._getIconUrl;
+
+
+//? marker.png vercelde gozukmuyor o yuzden boyle bir cozum yapilmis
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
 
 //markeri konumun ortasinda gostermek icin yazilmis bir fonk
 const calculateMapCenter = (coordinates) => {
@@ -38,7 +46,6 @@ function Map({ coordinateData, ilceAdi, mahalleAdi, monthlyData, yearlyData }) {
   const center = calculateMapCenter(coordinateData);
   const [mapKey, setMapKey] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
-  const detailsSectionRef = useRef(null);
 
   useEffect(() => {
     // coordinateData değiştiğinde mapKey'i güncelle
