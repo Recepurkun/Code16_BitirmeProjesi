@@ -37,11 +37,9 @@ function AllWorks() {
 
   const fetchMonthlyData = async () => {
     try {
-      const startTime = new Date().getTime();
+      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
 
-      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
-
-      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      // const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -53,15 +51,14 @@ function AllWorks() {
       const data = await response.json();
       setMonthlyData(data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching montly data:", error);
     }
   };
 
   const fetchYearlyData = async () => {
     try {
-      const startTime = new Date().getTime();
-      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
-      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      // const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -72,6 +69,7 @@ function AllWorks() {
       const data = await response.json();
       setYearlyData(data);
     } catch (error) {
+      console.error("Error fetching yearly data:", error);
     }
   };
 
