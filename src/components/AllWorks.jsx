@@ -37,11 +37,9 @@ function AllWorks() {
 
   const fetchMonthlyData = async () => {
     try {
-      const startTime = new Date().getTime();
+      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
 
-      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
-
-      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      // const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -50,9 +48,6 @@ function AllWorks() {
           Accept: "application/json",
         },
       });
-      const endTime = new Date().getTime();
-      const duration = endTime - startTime;
-      console.log(`API isteği tamamlandı. Süre: ${duration} ms`);
       const data = await response.json();
       setMonthlyData(data);
     } catch (error) {
@@ -62,9 +57,8 @@ function AllWorks() {
 
   const fetchYearlyData = async () => {
     try {
-      const startTime = new Date().getTime();
-      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
-      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      // const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -72,20 +66,14 @@ function AllWorks() {
           accept: "application/json",
         },
       });
-      const endTime = new Date().getTime();
-      const duration = endTime - startTime;
-      console.log(`API isteği tamamlandi. Gecen Sure: ${duration} ms`);
       const data = await response.json();
       setYearlyData(data);
     } catch (error) {
-      console.log("Error fetching data: ", error);
     }
   };
 
   const fetchLocationData = async () => {
     try {
-      const startTime = new Date().getTime();
-
       const url = `https://acikyesil.bursa.bel.tr/geoserver/ckan/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ckan%3Abursa_mahallesinirlari&outputFormat=application%2Fjson&CQL_FILTER=uavt_kodu=${selectedMahalle}
       `;
 
@@ -96,9 +84,6 @@ function AllWorks() {
           Accept: "application/json",
         },
       });
-      const endTime = new Date().getTime();
-      const duration = endTime - startTime;
-      console.log(`API isteği tamamlandı. Süre: ${duration} ms`);
       const data = await response.json();
       data.features.forEach((feature) => {
         setIlceAdi(feature.properties.ilce_adi);
@@ -106,8 +91,6 @@ function AllWorks() {
         feature.geometry.coordinates.forEach((polygon) => {
           polygon.forEach((ring) => {
             ring.forEach((coordinate) => {
-              // console.log(coordinate[1], coordinate[0]);
-              // gelen koordinat bilgisini coordinateData'ya at.
               // [1] ve [0] olmasinin sebebi bize koordinat bilgileri apiden
               // 28.9953492 , 40.23656992
               // olarak donuyor fakat gecerli bir konum olmasi (bkn: openstreetmap) icin
