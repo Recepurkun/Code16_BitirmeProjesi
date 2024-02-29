@@ -11,14 +11,15 @@ import "leaflet/dist/leaflet.css";
 import { FaLocationDot } from "react-icons/fa6";
 import Details from "./Details";
 import "./map.css";
-delete L.Icon.Default.prototype._getIconUrl;
+// Icon'u import etmek için
+import iconMarker from 'leaflet/dist/images/marker-icon.png'
+import iconRetina from 'leaflet/dist/images/marker-icon-2x.png'
+import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
-
-//? marker.png vercelde gozukmuyor o yuzden boyle bir cozum yapilmis
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+const icon = L.icon({ 
+  iconRetinaUrl:iconRetina, 
+  iconUrl: iconMarker, 
+  shadowUrl: iconShadow 
 });
 
 //markeri konumun ortasinda gostermek icin yazilmis bir fonk
@@ -109,7 +110,7 @@ function Map({ coordinateData, ilceAdi, mahalleAdi, monthlyData, yearlyData }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={center}>
+        <Marker position={center} icon={icon}>
           <Popup>
             <button
               className="btn btn-sm btn-secondary"
