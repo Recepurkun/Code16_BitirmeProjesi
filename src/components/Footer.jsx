@@ -53,12 +53,12 @@ function Footer({ darkMode }) {
           </i>
         </p>
         <p>
-          {" "}
           <a
             href="https://cors-anywhere.herokuapp.com/corsdemo"
             className={`text-decoration-none ${
               darkMode ? "text-white" : "text-black"
             }`}
+            target="blank"
           >
             <b>
               <i>
