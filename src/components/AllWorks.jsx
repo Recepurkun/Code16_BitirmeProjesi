@@ -37,9 +37,11 @@ function AllWorks() {
 
   const fetchMonthlyData = async () => {
     try {
-      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      const startTime = new Date().getTime();
 
-      // const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+
+      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/aylik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -57,8 +59,9 @@ function AllWorks() {
 
   const fetchYearlyData = async () => {
     try {
-      const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
-      // const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      const startTime = new Date().getTime();
+      // const url = `https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
+      const url = `https://cors-anywhere.herokuapp.com/https://acikveri.buski.gov.tr:9016/acik/yesil/v1/tuketim/mahalle/yillik?ilceID=${selectedIlce}&mahalleID=${selectedMahalle}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
