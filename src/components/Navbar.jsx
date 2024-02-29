@@ -1,11 +1,12 @@
 import React from "react";
 import { FaMoon } from "react-icons/fa";
 import { IoMdSunny } from "react-icons/io";
+import Logo from "../assets/logo.png"
 
 function Navbar({ toggleDarkMode, darkMode }) {
   return (
     <nav className="align-items-center d-flex justify-content-evenly  text-center">
-      <img src="src/assets/logo.png" alt="" height="30" className="mx-3" />
+      <img src={Logo} alt="" height="30" className="mx-3" />
       <span
         className="me-auto d-flex justify-content-center m-3"
         style={{ fontWeight: 700, fontSize: 26 }}
