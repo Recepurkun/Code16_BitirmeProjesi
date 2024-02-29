@@ -1,5 +1,6 @@
 import React from "react";
 import { FaLinkedin, FaGithubSquare } from "react-icons/fa";
+import { MdNotificationImportant } from "react-icons/md";
 
 function Footer({ darkMode }) {
   const currentYear = new Date().getFullYear();
@@ -20,7 +21,9 @@ function Footer({ darkMode }) {
           </li>
           <li className="nav-item">
             <a
-              className={`nav-link px-2 ${darkMode ? 'text-white' : 'text-black'}`}
+              className={`nav-link px-2 ${
+                darkMode ? "text-white" : "text-black"
+              }`}
               href="https://github.com/Recepurkun"
               target="blank"
             >
@@ -29,7 +32,9 @@ function Footer({ darkMode }) {
           </li>
           <li className="nav-item">
             <a
-              className={`nav-link px-2 ${darkMode ? 'text-white' : 'text-black'}`}
+              className={`nav-link px-2 ${
+                darkMode ? "text-white" : "text-black"
+              }`}
               href="https://www.linkedin.com/in/recepurkunn/"
               target="blank"
             >
@@ -39,6 +44,29 @@ function Footer({ darkMode }) {
         </ul>
         <p className="text-center">
           <b>© {currentYear} | Recep Ürkün tarafindan kodlanmıştır</b>
+        </p>
+        <hr />
+        <p className="text-center">
+          <i>
+            Api'lerde <b>CORS</b> problemi vardir. Verilerin aktif olmasi icin
+            asagidaki linke <b>tiklamak</b> gerekmektedir.
+          </i>
+        </p>
+        <p>
+          {" "}
+          <a
+            href="https://cors-anywhere.herokuapp.com/corsdemo"
+            className={`text-decoration-none ${
+              darkMode ? "text-white" : "text-black"
+            }`}
+          >
+            <b>
+              <i>
+                <MdNotificationImportant className="icon" />
+                CORS DEMO
+              </i>
+            </b>
+          </a>
         </p>
       </footer>
     </div>
