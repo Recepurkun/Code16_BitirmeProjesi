@@ -10,7 +10,7 @@ Herhangi bir şekilde cors'u bypass eden eklenti de kullanabilirsiniz.
 
 <details>
   <summary><strong>Proje videosunu göster</strong></summary>
-  [![Video](http://img.youtube.com/vi/StO7cVBsdUA/0.jpg)](https://www.youtube.com/watch?v=StO7cVBsdUA)
+  [Video](https://www.youtube.com/watch?v=StO7cVBsdUA)
 </details>
 
 ## Kullanilan Teknolojiler
