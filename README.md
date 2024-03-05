@@ -8,10 +8,8 @@ Herhangi bir şekilde cors'u bypass eden eklenti de kullanabilirsiniz.
 
 ## Canli  -> https://code16-bitirme-projesi-recepurkun.vercel.app/
 
-<details>
-  <summary><strong>Proje videosunu göster</strong></summary>
-  [Video](https://www.youtube.com/watch?v=StO7cVBsdUA)
-</details>
+## Proje Videosu
+[Video](https://www.youtube.com/watch?v=StO7cVBsdUA)
 
 ## Kullanilan Teknolojiler
 > Harita icin:  [React Leaflet](https://react-leaflet.js.org/) <br>
